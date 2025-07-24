@@ -1,44 +1,52 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
-import {useSearchParams} from 'react-router-dom'
-import axios from 'axios'
-import {toast} from "react-toastify"
+import React, { useCallback, useContext, useEffect } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Verify = () => {
-    const {navigate , token , setCartItems,backendUrl} = useContext(ShopContext) 
-    const [searchParams , setSearchParams] = useSearchParams()
-    const success = searchParams.get('success')
-    const orderId = searchParams.get('orderId')
+    const { token, setCartItems, backendUrl } = useContext(ShopContext);
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
+    const verifyPayment = useCallback(async () => {
+        const success = searchParams.get('success');
+        const orderId = searchParams.get('orderId');
 
-        const verifyPayment = async()=>{
-             try {
-            if(!token){
-                return null
-            }
-            const response = await axios.post(backendUrl + '/api/order/verifyStripe ' , {success,orderId},{ headers :{token}})
-            if(response.data.success){
-                setCartItems({})
-                navigate('/orders')
-            }
-            else{
-                navigate('/cart')
+        if (!token || !orderId) {
+            navigate('/');
+            return;
+        }
+
+        try {
+            // FIX 1: Removed the trailing space from the URL
+            const response = await axios.post(`${backendUrl}/api/order/verifyStripe`, { success, orderId }, { headers: { token } });
+            
+            if (response.data.success) {
+                setCartItems({});
+                toast.success("Payment Verified!");
+                navigate('/orders');
+            } else {
+                toast.error("Verification Failed.");
+                navigate('/cart');
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.message)
+            toast.error("An error occurred during verification.");
+            navigate('/');
         }
-        }
-    useEffect(()=>{
-       verifyPayment()
-    },[token])
-    
-  return (
-    <div>
-      
-      
-    </div>
-  )
-}
+    }, [token, searchParams, backendUrl, navigate, setCartItems]); // Dependencies for useCallback
 
-export default Verify
+    // FIX 2: useEffect now correctly calls the memoized function
+    useEffect(() => {
+        verifyPayment();
+    }, [verifyPayment]);
+
+    return (
+        <div style={{ minHeight: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <p>Verifying payment, please wait...</p>
+        </div>
+    );
+};
+
+export default Verify;
