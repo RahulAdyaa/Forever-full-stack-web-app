@@ -1,15 +1,20 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name:{type:String , required:true},
-    email:{type:String , required:true, unique:true},
-    password:{type:String , required:true},
-    cartData:{type:Object , default:{}},
-},{
-    timestamps:true,
-    minimize:false
-})
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    cartData: { type: Object, default: {} },
 
-const userModel = mongoose.models.User || mongoose.model ("User" , userSchema)
+    // 🔒 For password reset
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
+}, {
+    timestamps: true,
+    minimize: false
+});
 
-export default userModel
+// This prevents model overwrite errors during development
+const userModel = mongoose.models.User || mongoose.model("User", userSchema);
+
+export default userModel;

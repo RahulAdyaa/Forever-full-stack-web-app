@@ -294,7 +294,7 @@ const Add = ({ token }) => {
 
       <button
         type="submit"
-        className="w-25 py-2.5 mt-4 bg-black text-white rounded-sm"
+        className="w-25 py-2.5 mt-4 bg-black text-white rounded-sm cursor-pointer"
       >
         ADD
       </button>
