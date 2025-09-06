@@ -23,7 +23,7 @@ Key Highlights:
 ---
 
 ## 📂 Project Structure
-```bash
+``bash
 E-COMMERCE-APP/
 │
 ├── admin/                  # Admin Dashboard (React + Vite)
@@ -46,7 +46,8 @@ E-COMMERCE-APP/
 │   └── package.json
 │
 └── README.md
-✨ Features
+
+## Features
 👤 User (Frontend)
 Register/Login with JWT authentication
 
