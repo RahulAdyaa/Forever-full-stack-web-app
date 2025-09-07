@@ -20,7 +20,6 @@
   <a href="#-features">Features</a> •
   <a href="#-tech-stack">Tech Stack</a> •
   <a href="#-getting-started">Getting Started</a> •
-  <a href="#-screenshots">Screenshots</a> •
   <a href="#-contributing">Contributing</a>
 </p>
 
@@ -124,14 +123,6 @@ Make sure you have the following installed on your machine:
 > * Frontend: `http://localhost:5173`
 > * Admin: `http://localhost:5174` (or as specified by Vite)
 > * Backend: `http://localhost:8000`
-
----
-
-## 📸 Screenshots
-
-*(Add your screenshots here to showcase the application)*
-
-
 
 
 
