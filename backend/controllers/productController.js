@@ -4,9 +4,11 @@ import productModel from "../models/productModel.js"
 import { json } from "express"
 // function for add product
 
+
+
 const addProduct = async(req,res)=>{
     try {
-        const{name , description , price , category , subCategory , sizes , bestseller} = req.body
+        const{name , description , price , category , subCategory , sizes , bestSeller} = req.body
         
         const image1= req.files.image1 && req.files.image1[0] // image1 is array,we want first image ,  if image 1 is available we get it
         const image2= req.files.image2 && req.files.image2[0] // image1 is array,we want first image ,  if image 2 is available we get it
@@ -27,7 +29,7 @@ const addProduct = async(req,res)=>{
             description,
             category,
             price:Number(price),  // as we get price as number
-            bestseller: bestseller ==='true' ?true:false, // as we get bestseller as true or false
+            bestSeller: bestSeller ==='true' ?true:false, // as we get bestseller as true or false
             sizes:JSON.parse(sizes),
             subCategory,
             image:imagesUrl,
