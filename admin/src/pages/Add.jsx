@@ -29,7 +29,8 @@ const Add = ({ token }) => {
       formData.append("price", price);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
-      formData.append("bestseller", bestseller);
+      // <-- Minimal change: send bestseller as explicit string so server can parse it reliably
+      formData.append("bestseller", bestseller ? "true" : "false");
       formData.append("sizes", JSON.stringify(sizes));
 
       if (image1) formData.append("image1", image1);
@@ -40,24 +41,31 @@ const Add = ({ token }) => {
       const response = await axios.post(
         backendUrl + "/api/product/add",
         formData,
-        { headers: { token } }
+        {
+          headers: {
+            // <-- Minimal change: send token as standard Authorization header
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      if(response.data.success){
-        toast.success(response.data.message)
-        setName('')
-        setDescription('')
-        setImage1(false)
-        setImage2(false)
-        setImage3(false)
-        setImage4(false)
-        setPrice('')
-      }
-      else{
-        toast.error(response.data.message)
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setName("");
+        setDescription("");
+        setImage1(false);
+        setImage2(false);
+        setImage3(false);
+        setImage4(false);
+        setPrice("");
+        // <-- Minimal change: reset sizes and bestseller as part of successful submit
+        setSizes([]);
+        setBestseller(false);
+      } else {
+        toast.error(response.data.message);
       }
     } catch (error) {
-        console.log(error);
-        toast.error(error.message)        
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
