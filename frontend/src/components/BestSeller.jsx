@@ -9,7 +9,7 @@ const BestSeller = () => {
 
   useEffect(() => {
     const list = Array.isArray(products) ? products : [];
-    console.log("BestSeller: products length:", list.length);
+
 
     if (list.length === 0) {
       setBestSeller([]);
@@ -28,19 +28,13 @@ const BestSeller = () => {
       return false;
     });
 
-    console.log("BestSeller: filtered count:", filtered.length, filtered.slice(0, 3));
+   
     setBestSeller(filtered.slice(0, 5));
   }, [products]);
 
 
   // in the page console (while the app is loaded)
-    useEffect(()=>{
-        console.log('products length:', products?.length);
-        console.log('first product:', products && products[0]);
-        console.log('first product keys:', products && Object.keys(products[0] || {}));
-        console.log('any product with bestSeller:', products && products.find(p => p.bestSeller || p.bestseller));
-
-    },[])
+   
 
   return (
     <div className="my-10">
